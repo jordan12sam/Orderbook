@@ -1,4 +1,4 @@
-#include <configuration.hpp>
+#include <Configuration.hpp>
 
 Configuration::Configuration(std::string propertySource){
     this->propertySource = propertySource;

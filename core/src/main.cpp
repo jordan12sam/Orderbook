@@ -1,7 +1,7 @@
 #include <iostream>
 #include <spdlog/spdlog.h>
 
-#include <configuration.hpp>
+#include <Configuration.hpp>
 
 int main(){
 	spdlog::info("Application started");
