@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <ctime>
 
@@ -6,6 +8,7 @@
 class Order {
 private:
 public:
+    Order();
     int orderId;
     std::time_t timestamp;
     Side side;
