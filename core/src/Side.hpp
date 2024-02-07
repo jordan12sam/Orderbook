@@ -1,0 +1,1 @@
+enum Side {buy = true, sell = false};

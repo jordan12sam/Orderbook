@@ -1,12 +1,14 @@
 #include <iostream>
 #include <ctime>
 
+#include <Side.hpp>
+
 class Order {
-public:
 private:
+public:
     int orderId;
     std::time_t timestamp;
-    bool side;
+    Side side;
     double price;
     int volume;
     std::string client;
