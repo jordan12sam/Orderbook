@@ -5,11 +5,12 @@ if ( $enable_tests )
     $enable_tests_str = 'ON'
 }
 Remove-Item -Recurse -Force build
-Remove-Item -Force Orderbook.exe
-Remove-Item -Force Orderbook-Tests.exe
+Remove-Item -Force orderbook-app.exe
+Remove-Item -Force orderbook-test.exe
 mkdir build
 cd build
 cmake -DENABLE_TESTS="$enable_tests_str" ..
 cmake --build .
-robocopy ./Debug .. Orderbook.exe
-robocopy ./Debug .. Orderbook-Tests.exe
+robocopy ./core/app/Debug .. orderbook-app.exe
+robocopy ./core/test/Debug .. orderbook-test.exe
+cd ..

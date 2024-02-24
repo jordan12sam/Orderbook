@@ -1,4 +1,6 @@
-add_subdirectory(src)
+add_subdirectory(app)
+add_subdirectory(lib)
 if(${ENABLE_TESTS})
+    enable_testing()
     add_subdirectory(test)
 endif()
