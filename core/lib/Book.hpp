@@ -12,14 +12,14 @@
 #include <functional>
 
 class Book {
-private:
-    Book();
-    LimitTree *buyTree;
-    LimitTree *sellTree;
+public:
+    std::shared_ptr<LimitTree> buyTree;
+    std::shared_ptr<LimitTree> sellTree;
     std::unordered_map<int, Order> orderMap;
     std::unordered_map<double, int> volumeMap;
     std::unordered_map<double, Limit> limitMap;
-public:
+
+    Book();
     void placeOrder(Order order);
     void cancelOrder(Order order);
     void getVolumeAtPrice();

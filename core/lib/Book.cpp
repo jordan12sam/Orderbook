@@ -1,21 +1,22 @@
 #include <Book.hpp>
 
 Book::Book() {
-    buyTree = new LimitTree(Side::buy);
-    sellTree = new LimitTree(Side::sell);
+    buyTree = std::make_shared<LimitTree>(Side::buy);
+    sellTree = std::make_shared<LimitTree>(Side::sell);
 };
 
 void Book::placeOrder(Order order) {
-    LimitTree *oppositeBook = order.side ? sellTree : buyTree;
-    orderMap.insert({order.orderId, order});
+    std::shared_ptr<LimitTree> otherBook = order.side ? sellTree : buyTree;
+    std::shared_ptr<LimitTree> book  = order.side ? buyTree : sellTree;
+    orderMap.insert({order.id, order});
 
-    while((order.volume > 0) && (!oppositeBook->heap.empty()) && (oppositeBook->heap.top().price <= order.price)) {
-        Order otherOrder = oppositeBook->heap.top().front();
+    while((order.volume > 0) && (!otherBook->heap.empty()) && (otherBook->heap.top().price <= order.price)) {
+        Order otherOrder = otherBook->heap.top().front();
         double tradePrice = otherOrder.price;
         int tradeVolume = std::min(order.volume, otherOrder.volume);
         otherOrder.volume -= tradeVolume;
         order.volume -= tradeVolume;
-        spdlog::info("Made by {}, OrderID={}. Taken by {}, OrderID={}. {} shares @ {}.");
+        spdlog::info(std::format("Made by {}, [{}]. Taken by {}, [{}]. {} shares @ {}.", otherOrder.client, otherOrder.id, order.client, order.id, tradeVolume, order.price));
 
         if(otherOrder.volume == 0) {
             cancelOrder(otherOrder);

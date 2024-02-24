@@ -6,10 +6,11 @@
 #include <Side.hpp>
 
 class Order {
-private:
 public:
     Order();
-    int orderId;
+    bool operator==(const Order& rhs) const = default;
+
+    int id;
     std::time_t timestamp;
     Side side;
     double price;
