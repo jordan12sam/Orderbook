@@ -8,12 +8,8 @@
 
 class Limit : public std::list<Order>{
 private:
-public:
     double price;
-    const bool operator==(const Limit& other);
-    const bool operator!=(const Limit& other);
-    const bool operator>(const Limit& other);
-    const bool operator<(const Limit& other);
-    const bool operator>=(const Limit& other);
-    const bool operator<=(const Limit& other);
+public:
+    Limit(double price);
+    double getPrice() const;
 };

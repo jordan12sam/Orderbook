@@ -1,11 +1,7 @@
 #include <LimitTree.hpp>
 
-LimitTree::LimitTree(Side side) {
- this->side = side;
-};
-
-const bool LimitTree::LimitCompare::operator() (Limit order1, Limit order2) {
-    return side ? (order1 > order2) : (order1 < order2);
+bool LimitCompare::operator() (Limit limit1, Limit limit2) {
+    return side ? (limit1.getPrice() < limit2.getPrice()) : (limit1.getPrice() > limit2.getPrice());
 };
 
 const Side LimitTree::getSide() {

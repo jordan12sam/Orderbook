@@ -10,8 +10,8 @@ void Book::placeOrder(Order order) {
     std::shared_ptr<LimitTree> book  = order.side ? buyTree : sellTree;
     orderMap.insert({order.id, order});
 
-    while((order.volume > 0) && (!otherBook->heap.empty()) && (otherBook->heap.top().price <= order.price)) {
-        Order otherOrder = otherBook->heap.top().front();
+    while((order.volume > 0) && (!otherBook->empty()) && (otherBook->top().getPrice() <= order.price)) {
+        Order otherOrder = otherBook->top().front();
         double tradePrice = otherOrder.price;
         int tradeVolume = std::min(order.volume, otherOrder.volume);
         otherOrder.volume -= tradeVolume;

@@ -7,19 +7,19 @@
 #include <Limit.hpp>
 #include <Side.hpp>
 
-class LimitTree {
+class LimitCompare {
 private:
     Side side;
-    class LimitCompare{
-    private:
-        Side side;
-    public:
-        LimitCompare(Side side) : side{side} {};
-        const bool operator() (Limit limit1, Limit limit2);
-    };
 public:
-    LimitTree(Side side);
-    std::priority_queue<Limit, std::vector<Limit>, LimitCompare> heap{LimitCompare{side}};
+    LimitCompare(Side side) : side{side} {}
+    bool operator()(Limit limit1, Limit limit2);
+};
+
+class LimitTree : public std::priority_queue<Limit, std::vector<Limit>, LimitCompare> {
+private:
+    Side side;
+public:
+    LimitTree(Side side) : std::priority_queue<Limit, std::vector<Limit>, LimitCompare>(LimitCompare(side)), side{side} {}
     const Side getSide();
 };
 

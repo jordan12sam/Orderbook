@@ -31,7 +31,8 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 add_executable(${TEST_NAME})
 target_link_libraries(${TEST_NAME} ${LIBRARY_NAME} gmock_main)
 target_sources(${TEST_NAME} PRIVATE 
-"configurationTest.cpp"
-"bookTest.cpp")
+"ConfigurationTest.cpp"
+"BookTest.cpp"
+"LimitTreeTest.cpp")
 
 gtest_discover_tests(${TEST_NAME})
