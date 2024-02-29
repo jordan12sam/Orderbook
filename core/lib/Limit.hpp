@@ -1,10 +1,10 @@
 #pragma once
 
+#include <Order.hpp>
+
 #include <queue>
 #include <vector>
 #include <functional>
-
-#include <Order.hpp>
 
 class Limit : public std::list<Order>{
 private:

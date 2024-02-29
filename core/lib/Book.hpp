@@ -4,6 +4,7 @@
 #include <Limit.hpp>
 #include <Order.hpp>
 #include <Side.hpp>
+#include <Price.hpp>
 
 #include <spdlog/spdlog.h>
 
@@ -16,11 +17,14 @@ public:
     std::shared_ptr<LimitTree> buyTree;
     std::shared_ptr<LimitTree> sellTree;
     std::unordered_map<int, Order> orderMap;
-    std::unordered_map<double, int> volumeMap;
-    std::unordered_map<double, Limit> limitMap;
+    std::unordered_map<bool, std::unordered_map<Price, int>> volumeMap;
+    std::unordered_map<bool, std::unordered_map<Price, Limit>> limitMap;
 
     Book();
     void placeOrder(Order order);
-    void cancelOrder(Order order);
-    void getVolumeAtPrice();
+    void cancelOrder(int id);
+    int getVolumeAtPrice(double price, bool side);
+    void addOrderToTree(Order order);
+    std::shared_ptr<LimitTree> getTree(bool side) const;
+    std::shared_ptr<LimitTree> getOtherTree(bool side) const;
 };

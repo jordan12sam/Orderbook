@@ -6,8 +6,8 @@ Book::Book() {
 };
 
 void Book::placeOrder(Order order) {
-    std::shared_ptr<LimitTree> otherBook = order.side ? sellTree : buyTree;
-    std::shared_ptr<LimitTree> book  = order.side ? buyTree : sellTree;
+    std::shared_ptr<LimitTree> otherBook = getOtherTree(order.side);
+    std::shared_ptr<LimitTree> book  = getTree(order.side);
     orderMap.insert({order.id, order});
 
     while((order.volume > 0) && (!otherBook->empty()) && (otherBook->top().getPrice() <= order.price)) {
@@ -19,11 +19,50 @@ void Book::placeOrder(Order order) {
         spdlog::info(std::format("Made by {}, [{}]. Taken by {}, [{}]. {} shares @ {}.", otherOrder.client, otherOrder.id, order.client, order.id, tradeVolume, order.price));
 
         if(otherOrder.volume == 0) {
-            cancelOrder(otherOrder);
+            cancelOrder(otherOrder.id);
         }
+    }
+
+    if (order.volume > 0) {
+        addOrderToTree(order);
     }
 };
 
-void Book::cancelOrder(Order order) {
+void Book::cancelOrder(int id) {
+    if (orderMap.contains(id)) {
+        Order order = orderMap.at(id);
+        Limit limit = limitMap.at(order.side).at(Price(order.price));
+        limit.remove(order);
+        if (limit.size() == 0) {
+            std::shared_ptr<LimitTree> book = getTree(order.side);
+            book->remove(limit);
+        }
+        volumeMap.at(order.side).at(Price(order.price)) -= order.volume;
+        orderMap.erase(id);
+        spdlog::info(std::format("Order [{}] cancelled by {}.", order.client, id));
+    }
+};
 
+int Book::getVolumeAtPrice(double price, bool side) {
+    return volumeMap.at(side).contains(Price(price)) ? volumeMap.at(side).at(Price(price)) : 0;
+}
+
+void Book::addOrderToTree(Order order) {
+    std::shared_ptr<LimitTree> book = getTree(order.side);
+    if (!limitMap.at(order.side).contains(Price(order.price))) {
+        limitMap.at(order.side).insert({Price(order.price), Limit(order.price)});
+        volumeMap.at(order.side).insert({Price(order.price), order.volume});
+    }
+    else {
+        volumeMap.at(order.side).at(Price(order.price)) += order.volume;
+    }
+    limitMap.at(order.side).at(Price(order.price)).push_front(order);
+};
+
+std::shared_ptr<LimitTree> Book::getTree(bool side) const {
+    return side ? buyTree : sellTree;
+};
+
+std::shared_ptr<LimitTree> Book::getOtherTree(bool side) const {
+    return getTree(!side);
 };

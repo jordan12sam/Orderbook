@@ -1,25 +1,26 @@
 #pragma once
 
+#include <Limit.hpp>
+#include <Side.hpp>
+
 #include <queue>
 #include <vector>
 #include <functional>
 
-#include <Limit.hpp>
-#include <Side.hpp>
-
 class LimitCompare {
 private:
-    Side side;
+    bool side;
 public:
-    LimitCompare(Side side) : side{side} {}
+    LimitCompare(bool side) : side{side} {}
     bool operator()(Limit limit1, Limit limit2);
 };
 
 class LimitTree : public std::priority_queue<Limit, std::vector<Limit>, LimitCompare> {
 private:
-    Side side;
+    bool side;
 public:
-    LimitTree(Side side) : std::priority_queue<Limit, std::vector<Limit>, LimitCompare>(LimitCompare(side)), side{side} {}
-    const Side getSide();
+    LimitTree(bool side) : std::priority_queue<Limit, std::vector<Limit>, LimitCompare>(LimitCompare(side)), side{side} {}
+    bool remove(const Limit& value);
+    bool getSide() const;
 };
 

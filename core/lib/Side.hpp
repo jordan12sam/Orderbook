@@ -1,3 +1,6 @@
 #pragma once
 
-enum Side {buy = true, sell = false};
+class Side {
+public:
+    enum {buy = true, sell = false};
+};
