@@ -19,8 +19,8 @@ namespace {
 
 	TEST_F(LimitTreeTest, limitCompare)
 	{
-        Limit limit1(1.0);
-        Limit limit2(3.0);
+        std::shared_ptr<Limit> limit1 = std::make_shared<Limit>(1.0);
+        std::shared_ptr<Limit> limit2 = std::make_shared<Limit>(3.0);
 
         buyLimitTree->push(limit1);
         buyLimitTree->push(limit2);
@@ -28,7 +28,7 @@ namespace {
         sellLimitTree->push(limit1);
         sellLimitTree->push(limit2);
 
-        EXPECT_DOUBLE_EQ(buyLimitTree->top().getPrice(), limit2.getPrice());
-        EXPECT_DOUBLE_EQ(sellLimitTree->top().getPrice(), limit1.getPrice());
+        EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit2->getPrice());
+        EXPECT_DOUBLE_EQ(sellLimitTree->top()->getPrice(), limit1->getPrice());
     }
 }

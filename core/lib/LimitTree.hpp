@@ -12,15 +12,15 @@ private:
     bool side;
 public:
     LimitCompare(bool side) : side{side} {}
-    bool operator()(Limit limit1, Limit limit2);
+    bool operator()(std::shared_ptr<Limit> limit1, std::shared_ptr<Limit> limit2);
 };
 
-class LimitTree : public std::priority_queue<Limit, std::vector<Limit>, LimitCompare> {
+class LimitTree : public std::priority_queue<std::shared_ptr<Limit>, std::vector<std::shared_ptr<Limit>>, LimitCompare> {
 private:
     bool side;
 public:
-    LimitTree(bool side) : std::priority_queue<Limit, std::vector<Limit>, LimitCompare>(LimitCompare(side)), side{side} {}
-    bool remove(const Limit& value);
+    LimitTree(bool side) : std::priority_queue<std::shared_ptr<Limit>, std::vector<std::shared_ptr<Limit>>, LimitCompare>(LimitCompare(side)), side{side} {}
+    bool remove(const std::shared_ptr<Limit>& value);
     bool getSide() const;
 };
 

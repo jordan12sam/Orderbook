@@ -1,10 +1,10 @@
 #include <LimitTree.hpp>
 
-bool LimitCompare::operator() (Limit limit1, Limit limit2) {
-    return side ? (limit1.getPrice() < limit2.getPrice()) : (limit1.getPrice() > limit2.getPrice());
+bool LimitCompare::operator() (std::shared_ptr<Limit> limit1, std::shared_ptr<Limit> limit2) {
+    return side ? (limit1->getPrice() < limit2->getPrice()) : (limit1->getPrice() > limit2->getPrice());
 };
 
-bool LimitTree::remove(const Limit& value) {
+bool LimitTree::remove(const std::shared_ptr<Limit>& value) {
     auto it = std::find(this->c.begin(), this->c.end(), value);
 
     if (it == this->c.end()) {
