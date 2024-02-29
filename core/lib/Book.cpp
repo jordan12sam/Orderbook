@@ -8,6 +8,7 @@ Book::Book() {
 void Book::placeOrder(Order order) {
     std::shared_ptr<LimitTree> otherBook = getOtherTree(order.side);
     std::shared_ptr<LimitTree> book  = getTree(order.side);
+    spdlog::trace("Inserted id: {} into order map.", order.id);
     orderMap.insert({order.id, order});
 
     while((order.volume > 0) && (!otherBook->empty()) && (otherBook->top().getPrice() <= order.price)) {
@@ -16,7 +17,8 @@ void Book::placeOrder(Order order) {
         int tradeVolume = std::min(order.volume, otherOrder.volume);
         otherOrder.volume -= tradeVolume;
         order.volume -= tradeVolume;
-        spdlog::info(std::format("Made by {}, [{}]. Taken by {}, [{}]. {} shares @ {}.", otherOrder.client, otherOrder.id, order.client, order.id, tradeVolume, order.price));
+        spdlog::info("Made by {}, [{}]. Taken by {}, [{}]. {} shares @ {}.", 
+        otherOrder.client, otherOrder.id, order.client, order.id, tradeVolume, order.price);
 
         if(otherOrder.volume == 0) {
             cancelOrder(otherOrder.id);
@@ -26,9 +28,11 @@ void Book::placeOrder(Order order) {
     if (order.volume > 0) {
         addOrderToTree(order);
     }
+    spdlog::trace("Order placed [id: {} buy={}]", order.id, order.side);
 };
 
 void Book::cancelOrder(int id) {
+    spdlog::trace("Order cancellation called for id: {}.", id);
     if (orderMap.contains(id)) {
         Order order = orderMap.at(id);
         Limit limit = limitMap.at(order.side).at(Price(order.price));
@@ -57,6 +61,7 @@ void Book::addOrderToTree(Order order) {
         volumeMap.at(order.side).at(Price(order.price)) += order.volume;
     }
     limitMap.at(order.side).at(Price(order.price)).push_front(order);
+    spdlog::trace("Order [id: {}] added to tree [buy={}].", order.id, order.side);
 };
 
 std::shared_ptr<LimitTree> Book::getTree(bool side) const {

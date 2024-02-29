@@ -30,7 +30,8 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(${TEST_NAME})
 target_link_libraries(${TEST_NAME} ${LIBRARY_NAME} gmock_main)
-target_sources(${TEST_NAME} PRIVATE 
+target_sources(${TEST_NAME} PRIVATE
+"main.cpp"
 "ConfigurationTest.cpp"
 "BookTest.cpp"
 "LimitTreeTest.cpp")

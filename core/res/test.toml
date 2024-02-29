@@ -1,2 +1,5 @@
 [test]
 property = "hello world"
+
+[spdlog]
+level = "trace"

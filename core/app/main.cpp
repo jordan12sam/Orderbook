@@ -6,6 +6,6 @@
 int main(){
 	spdlog::info("Application started");
 	Configuration configuration("./core/res/application.toml");
-	spdlog::info(configuration.properties["server"]["port"].value<int>().value_or(0000));
+	spdlog::info(configuration.properties["spdlog"]["level"].value<std::string>().value_or("null!"));
 	return 0;
 }
