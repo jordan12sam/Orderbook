@@ -17,6 +17,8 @@ bool LimitTree::remove(const std::shared_ptr<Limit>& value) {
         this->c.erase(it);
         std::make_heap(this->c.begin(), this->c.end(), this->comp);
     }
+    
+    spdlog::trace("Limit removed from tree: buy={}.", this->side);
     return true;
 }
 

@@ -3,6 +3,8 @@
 #include <Limit.hpp>
 #include <Side.hpp>
 
+#include <spdlog/spdlog.h>
+
 #include <queue>
 #include <vector>
 #include <functional>

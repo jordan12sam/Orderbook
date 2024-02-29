@@ -31,4 +31,33 @@ namespace {
         EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit2->getPrice());
         EXPECT_DOUBLE_EQ(sellLimitTree->top()->getPrice(), limit1->getPrice());
     }
+
+    TEST_F(LimitTreeTest, inplaceLimitUpdate)
+	{
+        std::shared_ptr<Limit> limit = std::make_shared<Limit>(1.0);
+        buyLimitTree->push(limit);
+
+        EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit->getPrice());
+
+        Order order;
+		order.id = 1;
+        limit->push_front(order);
+
+        EXPECT_EQ(buyLimitTree->top()->front().id, order.id);
+    }
+
+    TEST_F(LimitTreeTest, remove)
+	{
+        std::shared_ptr<Limit> limit1 = std::make_shared<Limit>(1.0);
+        std::shared_ptr<Limit> limit2 = std::make_shared<Limit>(3.0);
+
+        buyLimitTree->push(limit1);
+        buyLimitTree->push(limit2);
+
+        EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit2->getPrice());
+
+        buyLimitTree->remove(limit2);
+
+        EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit1->getPrice());
+    }
 }
