@@ -35,31 +35,31 @@ void Book::cancelOrder(int id) {
     spdlog::trace("Order cancellation called for id: {}.", id);
     if (orderMap.contains(id)) {
         Order order = orderMap.at(id);
-        std::shared_ptr<Limit> limit = limitMap.at(order.side).at(Price(order.price));
+        std::shared_ptr<Limit> limit = limitMap.at(order.side).at(order.price);
         limit->remove(order);
         if (limit->size() == 0) {
             std::shared_ptr<LimitTree> thisTree = getTree(order.side);
             thisTree->remove(limit);
         }
-        volumeMap.at(order.side).at(Price(order.price)) -= order.volume;
+        volumeMap.at(order.side).at(order.price) -= order.volume;
         orderMap.erase(id);
         spdlog::info(std::format("Order [{}] cancelled by {}.", order.client, id));
     }
 };
 
-int Book::getVolumeAtPrice(double price, bool side) {
-    return volumeMap.at(side).contains(Price(price)) ? volumeMap.at(side).at(Price(price)) : 0;
+int Book::getVolumeAtPrice(int price, bool side) {
+    return volumeMap.at(side).contains(price) ? volumeMap.at(side).at(price) : 0;
 }
 
 void Book::addOrderToTree(Order order) {
-    if (!limitMap.at(order.side).contains(Price(order.price))) {
-        limitMap.at(order.side).insert({Price(order.price), std::make_shared<Limit>(order.price)});
-        volumeMap.at(order.side).insert({Price(order.price), order.volume});
+    if (!limitMap.at(order.side).contains(order.price)) {
+        limitMap.at(order.side).insert({order.price, std::make_shared<Limit>(order.price)});
+        volumeMap.at(order.side).insert({order.price, order.volume});
     }
     else {
-        volumeMap.at(order.side).at(Price(order.price)) += order.volume;
+        volumeMap.at(order.side).at(order.price) += order.volume;
     }
-    limitMap.at(order.side).at(Price(order.price))->push_front(order);
+    limitMap.at(order.side).at(order.price)->push_front(order);
     spdlog::trace("Order [id: {}] added to tree [buy={}].", order.id, order.side);
 };
 

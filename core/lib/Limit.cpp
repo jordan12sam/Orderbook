@@ -1,9 +1,9 @@
 #include <Limit.hpp>
 
-Limit::Limit(double price) {
+Limit::Limit(int price) {
     this->price = price;
 }
 
-double Limit::getPrice() const {
+int Limit::getPrice() const {
     return price;
 }

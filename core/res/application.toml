@@ -1,2 +1,2 @@
 [spdlog]
-level = "debug"
+level = "info"

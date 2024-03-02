@@ -4,8 +4,7 @@ target_sources(${LIBRARY_NAME} PRIVATE
 "Configuration.cpp"
 "Book.cpp"
 "LimitTree.cpp"
-"Limit.cpp"
-"Price.cpp")
+"Limit.cpp")
 
 include(FetchContent)
 FetchContent_Declare(

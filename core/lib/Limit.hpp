@@ -8,8 +8,8 @@
 
 class Limit : public std::list<Order>{
 private:
-    double price;
+    int price;
 public:
-    Limit(double price);
-    double getPrice() const;
+    Limit(int price);
+    int getPrice() const;
 };

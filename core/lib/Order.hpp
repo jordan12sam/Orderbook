@@ -12,7 +12,7 @@ public:
     int id;
     std::time_t timestamp;
     bool side;
-    double price;
+    int price;
     int volume;
     std::string client;
 };
