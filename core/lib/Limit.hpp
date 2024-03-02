@@ -6,7 +6,7 @@
 #include <vector>
 #include <functional>
 
-class Limit : public std::list<Order>{
+class Limit : public std::list<std::shared_ptr<Order>>{
 private:
     int price;
 public:
