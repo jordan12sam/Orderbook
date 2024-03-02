@@ -21,7 +21,7 @@ namespace {
 		order.id = 1;
 		order.timestamp = std::time(nullptr);
 		order.side = Side::buy;
-		order.price = 0.123456;
+		order.price = 100;
 		order.volume = 10;
 		order.client = "client1";
 

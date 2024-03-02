@@ -48,8 +48,8 @@ namespace {
 
     TEST_F(LimitTreeTest, remove)
 	{
-        std::shared_ptr<Limit> limit1 = std::make_shared<Limit>(1.0);
-        std::shared_ptr<Limit> limit2 = std::make_shared<Limit>(3.0);
+        std::shared_ptr<Limit> limit1 = std::make_shared<Limit>(100);
+        std::shared_ptr<Limit> limit2 = std::make_shared<Limit>(300);
 
         buyLimitTree->push(limit1);
         buyLimitTree->push(limit2);
