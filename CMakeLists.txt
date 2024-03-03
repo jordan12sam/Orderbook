@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 add_definitions(-w)
 
-option(ENABLE_TESTS ON)
-
 set(PROJECT_NAME "orderbook")
 set(APPLICATION_NAME "${PROJECT_NAME}-app")
 set(LIBRARY_NAME "${PROJECT_NAME}-lib")
