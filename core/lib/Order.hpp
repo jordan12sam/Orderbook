@@ -7,12 +7,14 @@
 
 class Order {
 public:
+    Order();
+    Order(unsigned long int id, bool side, unsigned long int price, unsigned long int volume, std::string client);
     bool operator==(const Order& rhs) const = default;
 
-    int id;
+    unsigned long int id;
     std::time_t timestamp;
     bool side;
-    int price;
-    int volume;
+    unsigned long int price;
+    unsigned long int volume;
     std::string client;
 };
