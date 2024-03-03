@@ -1,2 +1,2 @@
 [spdlog]
-level = "info"
+level = "trace"

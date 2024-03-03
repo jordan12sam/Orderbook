@@ -62,15 +62,16 @@ void Book::addOrderToTree(std::shared_ptr<Order> order) {
     orderMap.insert({order->id, order});
     spdlog::trace("Inserted id: {} into order map.", order->id);
     if (!limitMap.at(order->side).contains(order->price)) {
-        limitMap.at(order->side).insert({order->price, std::make_shared<Limit>(order->price)});
+        std::shared_ptr<Limit> limit = std::make_shared<Limit>(order->price);
+        limitMap.at(order->side).insert({order->price, limit});
         spdlog::trace("Inserted limit [price={}] into limit map.", order->price);
         volumeMap.at(order->side).insert({order->price, order->volume});
+        getTree(order->side)->push(limit);
     }
     else {
         volumeMap.at(order->side).at(order->price) += order->volume;
     }
-    limitMap.at(order->side).at(order->price)->push_front(order);
-    getTree(order->side)->push(limitMap.at(order->side).at(order->price));
+    limitMap.at(order->side).at(order->price)->push_back(order);
     spdlog::trace("Order [id: {}] added to tree [buy={}].", order->id, order->side);
 };
 
