@@ -39,11 +39,11 @@ namespace {
 
         EXPECT_DOUBLE_EQ(buyLimitTree->top()->getPrice(), limit->getPrice());
 
-        Order order;
-		order.id = 1;
+        std::shared_ptr<Order> order = std::make_shared<Order>();
+		order->id = 1;
         limit->push_front(order);
 
-        EXPECT_EQ(buyLimitTree->top()->front().id, order.id);
+        EXPECT_EQ(buyLimitTree->top()->front()->id, order->id);
     }
 
     TEST_F(LimitTreeTest, remove)
