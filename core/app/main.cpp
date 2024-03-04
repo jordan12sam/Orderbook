@@ -38,6 +38,7 @@ int main(){
 		Book orderbook;
 		spdlog::info("Streaming orders...");
 		std::istream is(&fb);
+		auto start = std::chrono::high_resolution_clock::now();
 		while (is) {
 			std::vector<std::string> result = getNextLineAndSplitIntoTokens(is);
 			if (result.size() == 6) {
@@ -65,6 +66,12 @@ int main(){
 			}
 		}
 		fb.close();
+
+		auto finish = std::chrono::high_resolution_clock::now();
+		double total = ((double)std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count())/1e6;
+		double avg = total/255816.0;
+		spdlog::info("255816 records in {0:.3f}ms", total);
+		spdlog::info("Average {0:.3f}ms/record", avg);
 
 		if (!orderbook.sellTree->empty()) {
 			spdlog::info("Best ask: {}, levels={}", orderbook.sellTree->top()->getPrice(),  orderbook.sellTree->size());
